@@ -14,87 +14,245 @@
   </head>
 
   <body>
-    <!-- Navbar -->
-    <nav class="navbar sticky-top bg-body-tertiary">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-          <img
-            src="./assets/image_11-removebg-preview.png"
-            alt="Logo"
-            width="40"
-            height="34"
-            class="d-inline-block align-text"
-          />
-          Repohunter
-        </a>
-      </div>
-    </nav>
-
-    <!-- Main Content -->
-    <div class="main-container border">
-      <!-- Stack the columns on mobile by making one full-width and the other half-width -->
-      <div class="row main-content">
-        <div
-          class="col-md-5 border border-dark border-3 border-start-0 border-bottom-0 border-end-0"
-        >
-          <div
-            class="input-group input-group-lg"
-            style="padding-top: 30px; padding-left: 5px"
-          >
-            <input
-              type="text"
-              id="username"
-              class="form-control"
-              placeholder="Username"
-              aria-label="Username"
-              aria-describedby="button-addon2"
+    <div class="main-container">
+      <!--? =================================================Navbar======================================================-->
+      <nav id="navbar-repohunter" class="navbar sticky-top">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">
+            <img
+              src="./assets/image_11-removebg-preview.png"
+              alt="Logo"
+              width="40"
+              height="34"
+              class="d-inline-block align-text"
             />
-            <button class="btn btn-dark" type="button" id="button-addon2">
-              Search
-            </button>
-          </div>
-          <div id="user-profile-show">
-            <h4 style="margin-top: 10px; padding-left: 10px">User Profile:</h4>
-            <div
-              id="user-profile-container"
-              class="shadow p-3 mb-5 card card-main-content"
-              style="
-                background-color: rgba(255, 255, 255, 0.58);
-                width: 615px;
-                min-height: 210px;
-                margin-left: 10px;
-              "
-            >
-              <div id="user-skeleton" class="skeleton-loader">
-                <div class="skeleton-avatar"></div>
-                <div class="skeleton-info">
-                  <div class="skeleton-line"></div>
-                  <div class="skeleton-line"></div>
-                  <div class="skeleton-line"></div>
+            Repohunter
+          </a>
+        </div>
+      </nav>
+
+      <!--? =================================================Main Content======================================================-->
+      <div class="main-content-container border">
+        <div class="row main-content">
+          <!--? =================================================Left side pane====================================================-->
+
+          <div
+            id="left-container"
+            class="col-md-5 border border-dark border-3 border-start-0 border-bottom-0 border-end-0"
+          >
+            <div id="welcome-text">
+              <h1>Search</h1>
+              <h1>Github</h1>
+              <h1>Username</h1>
+            </div>
+            <!--? =================================================Serach bar with button=========================================-->
+
+            <div class="d-flex" style="padding-top: 30px; padding-left: 5px">
+              <input
+                type="text"
+                id="username"
+                class="form-control"
+                placeholder="Username"
+                aria-label="Username"
+                aria-describedby="button-addon2"
+              />
+              <button class="btn btn-dark" type="button" id="fetch-data-btn">
+                Search
+              </button>
+            </div>
+
+            <!--? =================================================User info card====================================================-->
+
+            <div id="user-profile-show">
+              <div
+                id="user-profile-container"
+                class="shadow p-3 mb-5 card card-main-content"
+                style="
+                  background-color: rgba(255, 255, 255, 0.58);
+                  width: 615px;
+                  min-height: 210px;
+                  margin-left: 10px;
+                "
+              ></div>
+            </div>
+            <!--? =================================================Skeleton loader====================================================-->
+            <div id="skeleton-user-profile">
+              <div
+                class="shadow p-3 mb-5 card card-main-content"
+                style="
+                  background-color: rgba(255, 255, 255, 0.58);
+                  width: 615px;
+                  min-height: 210px;
+                  margin-left: 10px;
+                "
+              >
+                <div
+                  id="user-skeleton"
+                  class="card-body d-flex flex-row justify-content-between align-content-start flex-wrap"
+                >
+                  <div class="skeleton-avatar"></div>
+                  <div style="width: 78%; padding-top: 22px">
+                    <div class="skeleton-line-half"></div>
+                    <div class="skeleton-line-full"></div>
+                    <div class="skeleton-line-half"></div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="col-md-7 border border-dark border-3 right-repo-div">
-          <h4 class="right-div-title">User Repositories:</h4>
-          <div
-            id="repositories-container"
-            class="d-flex flex-row justify-content-between align-content-start flex-wrap"
-          >
-            <div id="repositories-skeleton" class="skeleton-loader">
-              <!-- Repeat the following block for each repository skeleton -->
-              <div class="skeleton-repo">
-                <div class="skeleton-line"></div>
-                <div class="skeleton-line"></div>
-                <div class="skeleton-line"></div>
-                <div class="skeleton-line"></div>
+
+          <!--? ========================================================================================================================-->
+          <!--? =================================================Right side pane====================================================-->
+
+          <div class="col-md-7 border border-dark border-3 right-repo-div">
+            <h4 id="right-div-title" class="right-div-title">
+              User Repositories:
+            </h4>
+            <!--? ======================Repositories Container where repos will be added dynamically=====================-->
+            <div
+              id="repositories-container"
+              class="d-flex flex-row justify-content-between align-content-start flex-wrap"
+            >
+              <!--* here repos will be added ;) -->
+            </div>
+            <!--? =================================================Skeleton loader for repos starts====================================================-->
+            <div id="skeleton-loader-repositories">
+              <div
+                class="d-flex flex-row justify-content-between align-content-start flex-wrap"
+              >
+                <!--? =================================================Single skeleton component for repo start====================================================-->
+
+                <div
+                  class="shadow p-3 mb-5 card card-main-content"
+                  style="
+                    background-color: rgba(255, 255, 255, 0.58);
+                    width: 400px;
+                    min-height: 210px;
+                    margin-left: 10px;
+                  "
+                >
+                  <div class="card-body">
+                    <div class="skeleton-line-full"></div>
+                    <div class="skeleton-line-half"></div>
+                    <div class="skeleton-line-full"></div>
+                    <div class="skeleton-line-half"></div>
+                    <div class="skeleton-line-half"></div>
+                  </div>
+                </div>
+                <!--? =================================================Single skeleton component for repo ends====================================================-->
+                <!--? =================================================Single skeleton component for repo start====================================================-->
+
+                <div
+                  class="shadow p-3 mb-5 card card-main-content"
+                  style="
+                    background-color: rgba(255, 255, 255, 0.58);
+                    width: 400px;
+                    min-height: 210px;
+                    margin-left: 10px;
+                  "
+                >
+                  <div class="card-body">
+                    <div class="skeleton-line-full"></div>
+                    <div class="skeleton-line-half"></div>
+                    <div class="skeleton-line-full"></div>
+                    <div class="skeleton-line-half"></div>
+                    <div class="skeleton-line-half"></div>
+                  </div>
+                </div>
+                <!--? =================================================Single skeleton component for repo ends====================================================-->
+                <!--? =================================================Single skeleton component for repo start====================================================-->
+
+                <div
+                  class="shadow p-3 mb-5 card card-main-content"
+                  style="
+                    background-color: rgba(255, 255, 255, 0.58);
+                    width: 400px;
+                    min-height: 210px;
+                    margin-left: 10px;
+                  "
+                >
+                  <div class="card-body">
+                    <div class="skeleton-line-full"></div>
+                    <div class="skeleton-line-half"></div>
+                    <div class="skeleton-line-full"></div>
+                    <div class="skeleton-line-half"></div>
+                    <div class="skeleton-line-half"></div>
+                  </div>
+                </div>
+                <!--? =================================================Single skeleton component for repo ends====================================================-->
+                <!--? =================================================Single skeleton component for repo start====================================================-->
+
+                <div
+                  class="shadow p-3 mb-5 card card-main-content"
+                  style="
+                    background-color: rgba(255, 255, 255, 0.58);
+                    width: 400px;
+                    min-height: 210px;
+                    margin-left: 10px;
+                  "
+                >
+                  <div class="card-body">
+                    <div class="skeleton-line-full"></div>
+                    <div class="skeleton-line-half"></div>
+                    <div class="skeleton-line-full"></div>
+                    <div class="skeleton-line-half"></div>
+                    <div class="skeleton-line-half"></div>
+                  </div>
+                </div>
+                <!--? =================================================Single skeleton component for repo ends====================================================-->
+                <!--? =================================================Single skeleton component for repo start====================================================-->
+
+                <div
+                  class="shadow p-3 mb-5 card card-main-content"
+                  style="
+                    background-color: rgba(255, 255, 255, 0.58);
+                    width: 400px;
+                    min-height: 210px;
+                    margin-left: 10px;
+                  "
+                >
+                  <div class="card-body">
+                    <div class="skeleton-line-full"></div>
+                    <div class="skeleton-line-half"></div>
+                    <div class="skeleton-line-full"></div>
+                    <div class="skeleton-line-half"></div>
+                    <div class="skeleton-line-half"></div>
+                  </div>
+                </div>
+                <!--? =================================================Single skeleton component for repo ends====================================================-->
               </div>
             </div>
-          </div>
-        </div>
+            <!--? =================================================Skeleton loader for repos ends====================================================-->
+            <!--? =================================================Pagination component starts====================================================-->
+            <div id="pagination-container">
+              <div
+                class="pagination d-flex flex-row justify-content-between align-content-start"
+              >
+                <div>
+                  <button class="btn btn-dark" id="prevPage"><<</button>
+                  <span id="currentPage">1</span>
+                  <span>/</span>
+                  <span id="totalPages">1</span>
+                  <button class="btn btn-dark" id="nextPage">>></button>
+                </div>
+                <div>
+                  <span>Repositories per page:</span>
+                  <select id="perPage">
+                    <option value="5">5</option>
+                    <option value="10" selected>10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    <option value="25">25</option>
+                    <option value="30">30</option>
+                  </select>
+                </div>
+              </div>
+            </div>
 
-        <!-- Pagination component -->
+            <!--? =================================================Pagination component ends====================================================-->
+          </div>
+          <!--? =================================================Right side pane ends====================================================-->
+        </div>
       </div>
     </div>
     <script src="./js/utils.js"></script>
