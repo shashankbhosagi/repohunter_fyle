@@ -108,13 +108,13 @@ function displayRepositories(repositories) {
 async function getUser(username, token) {
   const url = `https://api.github.com/users/${username}`;
 
-  const headers = new Headers({
-    Authorization: `token ${token}`,
-  });
-  //use this when you push to github
   // const headers = new Headers({
-  //   Authorization: `token ${process.env.token}`,
+  //   Authorization: `token ${token}`,
   // });
+  //use this when you push to github
+  const headers = new Headers({
+    Authorization: `token ${process.env.TOKEN}`,
+  });
 
   const response = await fetch(url, { headers });
 
@@ -130,13 +130,13 @@ async function getUser(username, token) {
 async function getInitialRepositories(username, token, page = 1) {
   const url = `https://api.github.com/users/${username}/repos`;
 
-  const headers = new Headers({
-    Authorization: `token ${token}`,
-  });
-  //use this when you push to github
   // const headers = new Headers({
-  //   Authorization: `token ${process.env.token}`,
+  //   Authorization: `token ${token}`,
   // });
+  // use this when you push to github
+  const headers = new Headers({
+    Authorization: `token ${process.env.TOKEN}`,
+  });
 
   const params = new URLSearchParams({
     page: page,
@@ -158,13 +158,13 @@ async function fetchRepositories(page, perPage) {
   const username = document.getElementById("username").value.trim();
 
   const url = `https://api.github.com/users/${username}/repos`;
-  const headers = new Headers({
-    Authorization: `token ${token}`,
-  });
-  //use this when you push to github
   // const headers = new Headers({
-  //   Authorization: `token ${process.env.token}`,
+  //   Authorization: `token ${token}`,
   // });
+  //use this when you push to github
+  const headers = new Headers({
+    Authorization: `token ${process.env.TOKEN}`,
+  });
 
   const params = new URLSearchParams({
     page: page,
