@@ -2,11 +2,11 @@
 
 * {
     font-family: 'Inter', sans-serif;
+
 }
 
 body {
     margin: 0px;
-
     overflow: hidden;
 }
 
@@ -26,14 +26,14 @@ body {
     margin-top: 58px
 }
 
-/* ===========================Navbar======================== */
+/*? ===================================================Navbar================================================== */
 #navbar-repohunter {
-    background-color: #E3E3E3;
+    background-color: #D5D5D5;
     width: 101%;
 
 }
 
-/* Left Div */
+/*?==================================================== Left Div =========================================*/
 #welcome-text {
     display: flex;
     flex-direction: column;
@@ -62,9 +62,24 @@ body {
 }
 
 #left-container {
-    background-color: #E3E3E3;
+    background-color: #d5d5d5;
 
 
+}
+
+@media screen and (max-width: 768px) {
+    #left-container {
+        min-height: 80vh;
+    }
+
+    .main-container {
+        flex-direction: column;
+    }
+
+
+
+
+    /* Add more styles as needed for smaller screens */
 }
 
 .user-profile-image {
@@ -81,9 +96,9 @@ body {
     margin-left: 20px;
 }
 
-/* Right div */
+/* ?===============================================Right div=================================================== */
 .right-repo-div {
-    background: url('../assets/div-background.png') center center / cover;
+    background: url('../assets/privateinvestocat-light.jpg') center center / cover;
     height: 100%;
     overflow-y: auto;
     padding-bottom: 70px;
@@ -100,9 +115,18 @@ body {
 }
 
 
+.language-circle {
+    width: 50%;
+    height: 30px;
+    border-radius: 99999px;
+    background-color: #d4d4d4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
 
-
-/* Skeleton Loader Styles */
+/*?=================================== Skeleton Loader Styles ===========================================*/
 
 
 
@@ -157,7 +181,7 @@ body {
     margin-top: 48.797px;
 } */
 
-/* =======================================Pagination component=============================== */
+/* ?=======================================Pagination component=============================== */
 
 
 .pagination select,
@@ -177,7 +201,7 @@ body {
 
 
 /* =======================================Theme toggle=============================== */
-
+/* 
 #theme-name {
     margin-right: 42px
 }
@@ -215,7 +239,7 @@ body {
     right: 19px;
     width: 60px;
     height: 33px;
-    background-color: #ccc;
+    background-color: #8b8b8b;
     -webkit-transition: 0.4s;
     transition: 0.4s;
 }
@@ -233,12 +257,10 @@ body {
 }
 
 input:checked+.slider {
-    background-color: grey;
+    background-color: #221e1fbd;
 }
 
-input:focus+.slider {
-    box-shadow: 0 0 1px grey;
-}
+
 
 input:checked+.slider:before {
     -webkit-transform: translateX(26px);
@@ -246,7 +268,7 @@ input:checked+.slider:before {
     transform: translateX(26px);
 }
 
-/* Rounded sliders */
+/* Rounded sliders 
 .slider.round {
     border-radius: 34px;
 }
@@ -254,3 +276,5 @@ input:checked+.slider:before {
 .slider.round:before {
     border-radius: 50%;
 }
+
+*/

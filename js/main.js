@@ -15,18 +15,22 @@ fetchButton.addEventListener("click", async () => {
   hideWelcomeText();
   showSkeletonLoaderRepo();
   showSkeletonLoaderUser();
+  const user = await getUser(username, token);
+
+  // If user is null, it means that the API call failed
+  if (!user) {
+    hideSkeletonLoaderUser();
+    hideSkeletonLoaderRepo();
+    hidePaginationContainer();
+    hideUserRepoText();
+    showWelcomeText();
+
+    return;
+  }
 
   currentPage = 1;
-  // const repos = await getInitialRepositories(username, token, currentPage);
-  // const user = await getUser(username, token);
+  const repos = await getInitialRepositories(username, token, currentPage);
 
-  //Use this when pushing to github
-  const repos = await getInitialRepositories(
-    username,
-    process.env.TOKEN,
-    currentPage
-  );
-  const user = await getUser(username, process.env.TOKEN);
   userRepositoriesCount = user.public_repos;
   totalPages = Math.floor(userRepositoriesCount / repositoriesPerPage) + 1;
   fetchRepositories(currentPage, repositoriesPerPage);
@@ -50,16 +54,21 @@ function displayUser(user) {
   if (user) {
     showUserProfile();
     hideSkeletonLoaderUser();
+    console.log(user);
   }
 
   const userContainer = document.getElementById("user-profile-container");
 
   const userCard = `
     <div class="card-body d-flex flex-row justify-content-between align-content-start flex-wrap">
-      <img src="${user.avatar_url}" class="user-profile-image" alt="..." style="width: 100px; height: 100px; margin: 10px" />
+      <img src="${
+        user.avatar_url
+      }" class="user-profile-image" alt="..." style="width: 100px; height: 100px; margin: 10px" />
       <div style="width: 78%; padding-top: 22px">
-        <h5 class="card-title">${user.name}</h5>
-        <h6 class="card-subtitle mb-2 text-body-secondary">${user.bio}</h6>
+        <h5 class="card-title">${user.login}</h5>
+        <h6 class="card-subtitle mb-2 text-body-secondary">${
+          user.bio ? user.bio : " "
+        }</h6>
         <a href="${user.html_url}" class="card-link">View on GitHub</a>
       </div>
     </div>
@@ -84,6 +93,7 @@ function displayRepositories(repositories) {
   );
 
   repositories.forEach((repo) => {
+    console.log(repo.languages_url);
     const truncatedTitle =
       repo.name.length > 30 ? repo.name.slice(0, 30) + "..." : repo.name;
 
@@ -96,7 +106,11 @@ function displayRepositories(repositories) {
       <div class="shadow p-3 mb-5 card card-main-content" style="background-color: rgba(255, 255, 255, 0.58);width: 400px;min-height: 210px;; margin-left: 10px;">
         <div class="card-body">
           <h5 class="card-title">${truncatedTitle}</h5>
-          <h6 class="card-subtitle mb-2 text-body-secondary">Language: ${repo.language}</h6>
+          <h6 class="card-subtitle mb-2 text-body-secondary">${
+            repo.language
+              ? `<div class="language-circle">${repo.language}</div>`
+              : ""
+          }</h6>
           <p class="card-text">${truncatedDescription}</p>
           <a href="${repo.html_url}" class="card-link">View on GitHub</a>
         </div>
@@ -116,18 +130,18 @@ function displayRepositories(repositories) {
 async function getUser(username, token) {
   const url = `https://api.github.com/users/${username}`;
 
-  // const headers = new Headers({
-  //   Authorization: `token ${token}`,
-  // });
-  //use this when you push to github
   const headers = new Headers({
-    Authorization: `token ${process.env.TOKEN}`,
+    Authorization: `token ${token}`,
   });
 
   const response = await fetch(url, { headers });
 
   if (!response.ok) {
-    console.error(`Error: ${response.status}`);
+    if (response.status === 404) {
+      alert("Username not found !!");
+    } else {
+      console.error(`Error: ${response.status}`);
+    }
     return null;
   }
   return await response.json();
@@ -138,12 +152,8 @@ async function getUser(username, token) {
 async function getInitialRepositories(username, token, page = 1) {
   const url = `https://api.github.com/users/${username}/repos`;
 
-  // const headers = new Headers({
-  //   Authorization: `token ${token}`,
-  // });
-  // use this when you push to github
   const headers = new Headers({
-    Authorization: `token ${process.env.TOKEN}`,
+    Authorization: `token ${token}`,
   });
 
   const params = new URLSearchParams({
@@ -154,7 +164,11 @@ async function getInitialRepositories(username, token, page = 1) {
   const response = await fetch(`${url}?${params}`, { headers });
 
   if (!response.ok) {
-    console.error(`Error: ${response.status}`);
+    if (response.status === 404) {
+      alert("Username not found !!");
+    } else {
+      console.error(`Error: ${response.status}`);
+    }
     return null;
   }
   return await response.json();
@@ -166,12 +180,8 @@ async function fetchRepositories(page, perPage) {
   const username = document.getElementById("username").value.trim();
 
   const url = `https://api.github.com/users/${username}/repos`;
-  // const headers = new Headers({
-  //   Authorization: `token ${token}`,
-  // });
-  //use this when you push to github
   const headers = new Headers({
-    Authorization: `token ${process.env.TOKEN}`,
+    Authorization: `token ${token}`,
   });
 
   const params = new URLSearchParams({
@@ -181,7 +191,11 @@ async function fetchRepositories(page, perPage) {
   const response = await fetch(`${url}?${params}`, { headers });
 
   if (!response.ok) {
-    console.error(`Error: ${response.status}`);
+    if (response.status === 404) {
+      alert("Username not found !!");
+    } else {
+      console.error(`Error: ${response.status}`);
+    }
     return null;
   }
   return await response.json();
@@ -197,6 +211,8 @@ function updatePaginationInfo(currentPage, totalPages) {
 
 async function goToPage(page) {
   if (page >= 1 && page <= totalPages) {
+    showSkeletonLoaderRepo();
+
     currentPage = page;
     totalPages = Math.floor(userRepositoriesCount / repositoriesPerPage) + 1;
     const repos = await fetchRepositories(currentPage, repositoriesPerPage);
@@ -250,10 +266,16 @@ function showUserProfile() {
 function showUserRepoText() {
   document.getElementById("right-div-title").style.display = "block";
 }
+function hideUserRepoText() {
+  document.getElementById("right-div-title").style.display = "none";
+}
 function hideaSpaceAboveSkeletonloaderinitially() {
   document.getElementById("space-above-skeleton-loader").style.display = "none";
 }
 
+function showWelcomeText() {
+  document.getElementById("welcome-text").style.display = "block";
+}
 function hideWelcomeText() {
   document.getElementById("welcome-text").style.display = "none";
 }
@@ -281,18 +303,22 @@ function hideSkeletonLoaderRepo() {
 }
 
 // ? ===============================================Theme changer===============================================
-const darkToggle = document.querySelector("#dark-toggle");
-const themeName = document.querySelector("#theme-name");
-darkToggle.addEventListener("click", () => {
-  darkToggle.value === "L" ? darkOn() : lightOn();
-});
-function darkOn() {
-  themeName.innerHTML = "🌚";
-  darkToggle.value = "D";
-}
+// const darkToggle = document.querySelector("#dark-toggle");
+// const themeName = document.querySelector("#theme-name");
+// const navBar = document.querySelector("#navbar-repohunter");
+// darkToggle.addEventListener("click", () => {
+//   darkToggle.value === "L" ? darkOn() : lightOn();
+// });
+// function darkOn() {
+//   themeName.innerHTML = "🌚";
+//   darkToggle.value = "D";
+//   body.classList.add("dark-theme");
+// }
 
-function lightOn() {
-  themeName.innerHTML = "🌝";
-  darkToggle.value = "L";
-}
+// function lightOn() {
+//   themeName.innerHTML = "🌝";
+//   darkToggle.value = "L";
+//   body.classList.remove("dark-theme");
+// }
+
 // ? ===============================================End of code===============================================
