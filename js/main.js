@@ -17,8 +17,16 @@ fetchButton.addEventListener("click", async () => {
   showSkeletonLoaderUser();
 
   currentPage = 1;
-  const repos = await getInitialRepositories(username, token, currentPage);
-  const user = await getUser(username, token);
+  // const repos = await getInitialRepositories(username, token, currentPage);
+  // const user = await getUser(username, token);
+
+  //Use this when pushing to github
+  const repos = await getInitialRepositories(
+    username,
+    process.env.TOKEN,
+    currentPage
+  );
+  const user = await getUser(username, process.env.TOKEN);
   userRepositoriesCount = user.public_repos;
   totalPages = Math.floor(userRepositoriesCount / repositoriesPerPage) + 1;
   fetchRepositories(currentPage, repositoriesPerPage);
