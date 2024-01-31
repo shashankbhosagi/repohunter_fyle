@@ -10,6 +10,7 @@ body {
     overflow: hidden;
 }
 
+/* ?================================================= Container ============================================== */
 .main-container {
     display: flex;
     flex-direction: column;
@@ -127,9 +128,6 @@ body {
 }
 
 /*?=================================== Skeleton Loader Styles ===========================================*/
-
-
-
 
 .skeleton-avatar {
     border-radius: 9999px;

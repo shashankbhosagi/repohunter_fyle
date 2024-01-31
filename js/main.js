@@ -6,8 +6,12 @@ let userRepositoriesCount = 0;
 hidePaginationContainer();
 hideUserProfile();
 
+// ? ===============================================On click event listner===============================================
+
 fetchButton.addEventListener("click", async () => {
   const username = document.getElementById("username").value.trim();
+
+  //* check if username is empty
   if (!username) {
     alert("Please enter a username");
     return;
@@ -18,7 +22,7 @@ fetchButton.addEventListener("click", async () => {
   // const user = await getUser(username, token); //token for dev phase only
   const user = await getUser(username);
 
-  // If user is null, it means that the API call failed
+  //! Check if user exists
   if (!user) {
     hideSkeletonLoaderUser();
     hideSkeletonLoaderRepo();
@@ -29,12 +33,15 @@ fetchButton.addEventListener("click", async () => {
     return;
   }
 
+  //? User exists so proceed
+
   currentPage = 1;
-  // const repos = await getInitialRepositories(username, token, currentPage); //token for dev phase only
+  // const repos = await getInitialRepositories(username, token, currentPage); //!token for dev phase only
   const repos = await getInitialRepositories(username, currentPage);
 
-  userRepositoriesCount = user.public_repos;
-  totalPages = Math.floor(userRepositoriesCount / repositoriesPerPage) + 1;
+  userRepositoriesCount = user.public_repos; // Get the total number of repositories for the user
+  totalPages = Math.floor(userRepositoriesCount / repositoriesPerPage) + 1; // Calculate the total number of pages
+
   fetchRepositories(currentPage, repositoriesPerPage);
   updatePaginationInfo(currentPage, totalPages);
 
@@ -46,8 +53,86 @@ fetchButton.addEventListener("click", async () => {
     displayUser(user);
     showPaginationContainer();
   }
+  //extras
   hideaSpaceAboveSkeletonloaderinitially();
 });
+
+// ? =============================================== Get User API function===============================================
+async function getUser(username, token) {
+  const url = `https://api.github.com/users/${username}`;
+
+  const headers = new Headers({
+    Authorization: `token ${token}`,
+  });
+
+  // const response = await fetch(url, { headers }); //headers for testing dev phase
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    if (response.status === 404) {
+      alert("Username not found !!");
+    } else {
+      console.error(`Error: ${response.status}`);
+    }
+    return null;
+  }
+  return await response.json();
+}
+//? ===============================================Get initial repositories for user ===============================================
+
+async function getInitialRepositories(username, token, page = 1) {
+  const url = `https://api.github.com/users/${username}/repos`;
+
+  const headers = new Headers({
+    Authorization: `token ${token}`,
+  });
+
+  const params = new URLSearchParams({
+    page: page,
+    per_page: repositoriesPerPage,
+  });
+
+  // const response = await fetch(`${url}?${params}`, { headers }); // Header for dev phase only
+  const response = await fetch(`${url}?${params}`); // Header for dev phase only
+
+  if (!response.ok) {
+    if (response.status === 404) {
+      alert("Username not found !!");
+    } else {
+      console.error(`Error: ${response.status}`);
+    }
+    return null;
+  }
+  return await response.json();
+}
+
+//? =============================================== Get particular page repo && per page repos (Pagination)===============================================
+
+async function fetchRepositories(page, perPage) {
+  const username = document.getElementById("username").value.trim();
+
+  const url = `https://api.github.com/users/${username}/repos`;
+  // const headers = new Headers({
+  //   Authorization: `token ${token}`, // token for dev phase only
+  // });
+
+  const params = new URLSearchParams({
+    page: page,
+    per_page: perPage,
+  });
+  // const response = await fetch(`${url}?${params}`, { headers }); // Header for dev phase only
+  const response = await fetch(`${url}?${params}`);
+
+  if (!response.ok) {
+    if (response.status === 404) {
+      alert("Username not found !!");
+    } else {
+      console.error(`Error: ${response.status}`);
+    }
+    return null;
+  }
+  return await response.json();
+}
 
 // ? ===============================================Display User===============================================
 function displayUser(user) {
@@ -125,86 +210,6 @@ function displayRepositories(repositories) {
     repositoriesContainer.appendChild(tempContainer);
   });
 }
-
-// ? ===============================================Get User===============================================
-async function getUser(username, token) {
-  const url = `https://api.github.com/users/${username}`;
-
-  const headers = new Headers({
-    Authorization: `token ${token}`,
-  });
-
-  // const response = await fetch(url, { headers }); //headers for testing dev phase
-  const response = await fetch(url);
-
-  if (!response.ok) {
-    if (response.status === 404) {
-      alert("Username not found !!");
-    } else {
-      console.error(`Error: ${response.status}`);
-    }
-    return null;
-  }
-  return await response.json();
-}
-
-//? ===============================================Get 1st page repositories===============================================
-
-async function getInitialRepositories(username, token, page = 1) {
-  const url = `https://api.github.com/users/${username}/repos`;
-
-  const headers = new Headers({
-    Authorization: `token ${token}`,
-  });
-
-  const params = new URLSearchParams({
-    page: page,
-    per_page: repositoriesPerPage,
-  });
-
-  // const response = await fetch(`${url}?${params}`, { headers }); // Header for dev phase only
-  const response = await fetch(`${url}?${params}`); // Header for dev phase only
-
-  if (!response.ok) {
-    if (response.status === 404) {
-      alert("Username not found !!");
-    } else {
-      console.error(`Error: ${response.status}`);
-    }
-    return null;
-  }
-  return await response.json();
-}
-
-//? ===============================================Pagination Logic===============================================
-
-async function fetchRepositories(page, perPage) {
-  const username = document.getElementById("username").value.trim();
-
-  const url = `https://api.github.com/users/${username}/repos`;
-  // const headers = new Headers({
-  //   Authorization: `token ${token}`, // token for dev phase only
-  // });
-
-  const params = new URLSearchParams({
-    page: page,
-    per_page: perPage,
-  });
-  // const response = await fetch(`${url}?${params}`, { headers }); // Header for dev phase only
-  const response = await fetch(`${url}?${params}`);
-
-  if (!response.ok) {
-    if (response.status === 404) {
-      alert("Username not found !!");
-    } else {
-      console.error(`Error: ${response.status}`);
-    }
-    return null;
-  }
-  return await response.json();
-}
-
-// ? ===============================================Update UI===============================================
 
 // ? ===============================================Update Pagination Info===============================================
 function updatePaginationInfo(currentPage, totalPages) {
@@ -295,7 +300,6 @@ function hideSkeletonLoaderUser() {
 
 function showSkeletonLoaderRepo() {
   document.getElementById("repositories-container").innerHTML = "";
-
   document.getElementById("skeleton-loader-repositories").style.display =
     "block";
 }
