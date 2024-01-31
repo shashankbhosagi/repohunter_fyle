@@ -30,7 +30,8 @@ fetchButton.addEventListener("click", async () => {
   }
 
   currentPage = 1;
-  const repos = await getInitialRepositories(username, token, currentPage);
+  // const repos = await getInitialRepositories(username, token, currentPage); //token for dev phase only
+  const repos = await getInitialRepositories(username, currentPage);
 
   userRepositoriesCount = user.public_repos;
   totalPages = Math.floor(userRepositoriesCount / repositoriesPerPage) + 1;
@@ -181,9 +182,9 @@ async function fetchRepositories(page, perPage) {
   const username = document.getElementById("username").value.trim();
 
   const url = `https://api.github.com/users/${username}/repos`;
-  const headers = new Headers({
-    Authorization: `token ${token}`,
-  });
+  // const headers = new Headers({
+  //   Authorization: `token ${token}`, // token for dev phase only
+  // });
 
   const params = new URLSearchParams({
     page: page,
