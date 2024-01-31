@@ -1,14 +1,16 @@
 const fetchButton = document.getElementById("fetch-data-btn");
+const usernameInput = document.getElementById("username");
 let currentPage = 1;
 let totalPages = 10;
 let repositoriesPerPage = 10; // Default value
 let userRepositoriesCount = 0;
 hidePaginationContainer();
 hideUserProfile();
+hideNoReposToShow();
 
-// ? ===============================================On click event listner===============================================
+// ? ===============================================handleSearch function===============================================
 
-fetchButton.addEventListener("click", async () => {
+const handleSearch = async () => {
   const username = document.getElementById("username").value.trim();
 
   //* check if username is empty
@@ -45,16 +47,31 @@ fetchButton.addEventListener("click", async () => {
   fetchRepositories(currentPage, repositoriesPerPage);
   updatePaginationInfo(currentPage, totalPages);
 
-  if (repos) {
-    showUserRepoText();
-    displayRepositories(repos);
-  }
   if (user) {
     displayUser(user);
     showPaginationContainer();
   }
+  if (repos) {
+    showUserRepoText();
+    displayRepositories(repos);
+    hideNoReposToShow();
+  }
+  if (userRepositoriesCount <= 0) {
+    hidePaginationContainer();
+    hideUserRepoText();
+    showNoReposToShow();
+  }
   //extras
   hideaSpaceAboveSkeletonloaderinitially();
+};
+
+// ? ===============================================On click and Press enter event listner===============================================
+
+fetchButton.addEventListener("click", handleSearch);
+usernameInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    handleSearch();
+  }
 });
 
 // ? =============================================== Get User API function===============================================
@@ -155,7 +172,9 @@ function displayUser(user) {
         <h6 class="card-subtitle mb-2 text-body-secondary">${
           user.bio ? user.bio : " "
         }</h6>
-        <a href="${user.html_url}" class="card-link">View on GitHub</a>
+        <a href="${
+          user.html_url
+        }" class="card-link" target="_blank">View on GitHub</a>
       </div>
     </div>
   `;
@@ -197,7 +216,9 @@ function displayRepositories(repositories) {
               : ""
           }</h6>
           <p class="card-text">${truncatedDescription}</p>
-          <a href="${repo.html_url}" class="card-link">View on GitHub</a>
+          <a href="${
+            repo.html_url
+          }" class="card-link" target="_blank">View on GitHub</a>
         </div>
       </div>
     `;
@@ -307,6 +328,12 @@ function showSkeletonLoaderRepo() {
 function hideSkeletonLoaderRepo() {
   document.getElementById("skeleton-loader-repositories").style.display =
     "none";
+}
+function showNoReposToShow() {
+  document.getElementById("no-repo-to-show").style.display = "block";
+}
+function hideNoReposToShow() {
+  document.getElementById("no-repo-to-show").style.display = "none";
 }
 
 // ? ===============================================Theme changer===============================================
