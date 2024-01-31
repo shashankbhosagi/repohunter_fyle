@@ -134,7 +134,8 @@ async function getUser(username, token) {
     Authorization: `token ${token}`,
   });
 
-  const response = await fetch(url, { headers });
+  // const response = await fetch(url, { headers }); //headers for testing dev phase
+  const response = await fetch(url);
 
   if (!response.ok) {
     if (response.status === 404) {
@@ -161,7 +162,8 @@ async function getInitialRepositories(username, token, page = 1) {
     per_page: repositoriesPerPage,
   });
 
-  const response = await fetch(`${url}?${params}`, { headers });
+  // const response = await fetch(`${url}?${params}`, { headers }); // Header for dev phase only
+  const response = await fetch(`${url}?${params}`); // Header for dev phase only
 
   if (!response.ok) {
     if (response.status === 404) {
@@ -188,7 +190,8 @@ async function fetchRepositories(page, perPage) {
     page: page,
     per_page: perPage,
   });
-  const response = await fetch(`${url}?${params}`, { headers });
+  // const response = await fetch(`${url}?${params}`, { headers }); // Header for dev phase only
+  const response = await fetch(`${url}?${params}`);
 
   if (!response.ok) {
     if (response.status === 404) {
