@@ -35,11 +35,17 @@ body {
 }
 
 /*?==================================================== Left Div =========================================*/
+.welcome-text-h1 {
+    font-size: 4rem;
+    font-weight: 700;
+}
+
 #welcome-text {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
+
 }
 
 #skeleton-user-profile,
@@ -52,13 +58,13 @@ body {
     height: 62px;
     width: 70%;
     padding-left: 33px;
-    font-size: 25px;
+    font-size: 18px;
 }
 
 #fetch-data-btn {
     border-radius: 999999px;
     width: 28%;
-    font-size: 25px;
+    font-size: 18px;
     margin-left: 15px;
 }
 
@@ -68,20 +74,7 @@ body {
 
 }
 
-@media screen and (max-width: 768px) {
-    #left-container {
-        min-height: 80vh;
-    }
 
-    .main-container {
-        flex-direction: column;
-    }
-
-
-
-
-    /* Add more styles as needed for smaller screens */
-}
 
 .user-profile-image {
     border-radius: 9999px;
@@ -102,7 +95,7 @@ body {
     background: url('../assets/privateinvestocat-light.jpg') center center / cover;
     height: 100%;
     overflow-y: auto;
-    padding-bottom: 70px;
+    padding-bottom: 60px;
 }
 
 .right-div-title {
@@ -118,13 +111,15 @@ body {
 
 .language-circle {
     width: 50%;
-    height: 30px;
     border-radius: 99999px;
-    background-color: #d4d4d4;
+    background-color: #212529;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-weight: bold;
+    color: white;
+    padding: 12px 24px;
+    font-size: 18px;
+    margin: 12px 0;
 }
 
 /*?=================================== Skeleton Loader Styles ===========================================*/
@@ -175,10 +170,6 @@ body {
 
 
 
-/* #skeleton-loader-repositories {
-    margin-top: 48.797px;
-} */
-
 /* ?=======================================Pagination component=============================== */
 
 
@@ -198,81 +189,30 @@ body {
 }
 
 
-/* =======================================Theme toggle=============================== */
-/* 
-#theme-name {
-    margin-right: 42px
+/* ?========================================Media query for mobile============================================== */
+@media screen and (max-width: 768px) {
+    body {
+        margin: 0px;
+        overflow: auto;
+        overflow-x: hidden;
+    }
+
+    #left-container {
+        min-height: 80vh;
+    }
+
+    .main-container {
+        flex-direction: column;
+    }
+
+    .right-repo-div {
+
+        padding-bottom: 7px;
+    }
+
+    #repositories-container {
+        justify-content: center;
+    }
+
+
 }
-
-.switch-container {
-    display: flex;
-    flex-direction: row-reverse;
-    text-align: center;
-    margin-right: 16px;
-    justify-items: center;
-    align-items: center;
-}
-
-.switch-container p {
-    margin: 0;
-    padding: 0;
-    font-size: 1.5rem;
-}
-
-.switch {
-    width: 60px;
-    height: 34px;
-}
-
-.switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 12px;
-    right: 19px;
-    width: 60px;
-    height: 33px;
-    background-color: #8b8b8b;
-    -webkit-transition: 0.4s;
-    transition: 0.4s;
-}
-
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: 0.4s;
-    transition: 0.4s;
-}
-
-input:checked+.slider {
-    background-color: #221e1fbd;
-}
-
-
-
-input:checked+.slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
-}
-
-/* Rounded sliders 
-.slider.round {
-    border-radius: 34px;
-}
-
-.slider.round:before {
-    border-radius: 50%;
-}
-
-*/
