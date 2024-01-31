@@ -106,6 +106,10 @@ async function getUser(username, token) {
   const headers = new Headers({
     Authorization: `token ${token}`,
   });
+  //use this when you push to github
+  // const headers = new Headers({
+  //   Authorization: `token ${process.env.token}`,
+  // });
 
   const response = await fetch(url, { headers });
 
