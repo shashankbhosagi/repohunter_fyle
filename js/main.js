@@ -15,7 +15,8 @@ fetchButton.addEventListener("click", async () => {
   hideWelcomeText();
   showSkeletonLoaderRepo();
   showSkeletonLoaderUser();
-  const user = await getUser(username, token);
+  // const user = await getUser(username, token); //token for dev phase only
+  const user = await getUser(username);
 
   // If user is null, it means that the API call failed
   if (!user) {
@@ -54,7 +55,6 @@ function displayUser(user) {
   if (user) {
     showUserProfile();
     hideSkeletonLoaderUser();
-    console.log(user);
   }
 
   const userContainer = document.getElementById("user-profile-container");
@@ -93,7 +93,6 @@ function displayRepositories(repositories) {
   );
 
   repositories.forEach((repo) => {
-    console.log(repo.languages_url);
     const truncatedTitle =
       repo.name.length > 30 ? repo.name.slice(0, 30) + "..." : repo.name;
 
