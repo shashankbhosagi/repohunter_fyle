@@ -18,12 +18,12 @@ export async function getUser(username) {
 }
 //? ===============================================Get initial repositories for user ===============================================
 
-export async function getInitialRepositories(username, page = 1) {
+export async function getInitialRepositories(username, page = 1, perPage) {
   const url = `https://api.github.com/users/${username}/repos`;
 
   const params = new URLSearchParams({
     page: page,
-    per_page: repositoriesPerPage,
+    per_page: perPage,
   });
 
   const response = await fetch(`${url}?${params}`);

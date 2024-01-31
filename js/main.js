@@ -65,7 +65,11 @@ const handleSearch = async () => {
 
   currentPage = 1;
   // const repos = await getInitialRepositories(username, token, currentPage); //!token for dev phase only
-  const repos = await getInitialRepositories(username, currentPage);
+  const repos = await getInitialRepositories(
+    username,
+    currentPage,
+    repositoriesPerPage
+  );
   sessionStorage.setItem(
     `repos_${username}_page_${currentPage}_perPage_${repositoriesPerPage}`,
     JSON.stringify(repos)
