@@ -67,7 +67,7 @@ const handleSearch = async () => {
   // const repos = await getInitialRepositories(username, token, currentPage); //!token for dev phase only
   const repos = await getInitialRepositories(username, currentPage);
   sessionStorage.setItem(
-    `repos_${username}_page_${currentPage}`,
+    `repos_${username}_page_${currentPage}_perPage_${repositoriesPerPage}`,
     JSON.stringify(repos)
   );
 
@@ -116,7 +116,7 @@ export async function goToPage(page) {
     showSkeletonLoaderRepo();
 
     const cachedData = sessionStorage.getItem(
-      `repos_${usernameInput.value.trim()}_page_${page}`
+      `repos_${usernameInput.value.trim()}_page_${page}_perPage_${repositoriesPerPage}`
     );
     if (cachedData) {
       const repos = JSON.parse(cachedData);
@@ -130,13 +130,13 @@ export async function goToPage(page) {
     }
 
     // If data is not in local storage, make the API call
+    console.log(repositoriesPerPage);
     totalPages = Math.floor(userRepositoriesCount / repositoriesPerPage) + 1;
-    console.log(page, repositoriesPerPage);
     const repos = await fetchRepositories(page, repositoriesPerPage);
 
     // Save the data to local storage for future use
     sessionStorage.setItem(
-      `repos_${usernameInput.value.trim()}_page_${page}`,
+      `repos_${usernameInput.value.trim()}_page_${page}_perPage_${repositoriesPerPage}`,
       JSON.stringify(repos)
     );
 
