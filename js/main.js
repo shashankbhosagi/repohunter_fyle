@@ -13,6 +13,8 @@ fetchButton.addEventListener("click", async () => {
     return;
   }
   hideWelcomeText();
+  showSkeletonLoaderRepo();
+  showSkeletonLoaderUser();
 
   currentPage = 1;
   const repos = await getInitialRepositories(username, token, currentPage);
@@ -30,6 +32,7 @@ fetchButton.addEventListener("click", async () => {
     displayUser(user);
     showPaginationContainer();
   }
+  hideaSpaceAboveSkeletonloaderinitially();
 });
 
 // ? ===============================================Display User===============================================
@@ -38,6 +41,7 @@ function displayUser(user) {
 
   if (user) {
     showUserProfile();
+    hideSkeletonLoaderUser();
   }
 
   const userContainer = document.getElementById("user-profile-container");
@@ -64,6 +68,7 @@ function displayUser(user) {
 // ? ===============================================Display Repositories===============================================
 function displayRepositories(repositories) {
   document.getElementById("repositories-container").innerHTML = "";
+  hideSkeletonLoaderRepo();
 
   repositories.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
   const repositoriesContainer = document.getElementById(
@@ -128,6 +133,10 @@ async function getInitialRepositories(username, token, page = 1) {
   const headers = new Headers({
     Authorization: `token ${token}`,
   });
+  //use this when you push to github
+  // const headers = new Headers({
+  //   Authorization: `token ${process.env.token}`,
+  // });
 
   const params = new URLSearchParams({
     page: page,
@@ -152,6 +161,10 @@ async function fetchRepositories(page, perPage) {
   const headers = new Headers({
     Authorization: `token ${token}`,
   });
+  //use this when you push to github
+  // const headers = new Headers({
+  //   Authorization: `token ${process.env.token}`,
+  // });
 
   const params = new URLSearchParams({
     page: page,
@@ -212,7 +225,7 @@ document.getElementById("prevPage").addEventListener("click", function () {
   prevPage();
 });
 
-// ? ===============================================Show Pagination Container===============================================
+// ? ===============================================Show hide functions===============================================
 function showPaginationContainer() {
   document.getElementById("pagination-container").style.display = "block";
 }
@@ -229,7 +242,49 @@ function showUserProfile() {
 function showUserRepoText() {
   document.getElementById("right-div-title").style.display = "block";
 }
+function hideaSpaceAboveSkeletonloaderinitially() {
+  document.getElementById("space-above-skeleton-loader").style.display = "none";
+}
 
 function hideWelcomeText() {
   document.getElementById("welcome-text").style.display = "none";
 }
+
+function showSkeletonLoaderUser() {
+  hideUserProfile();
+
+  document.getElementById("skeleton-user-profile").style.display = "block";
+}
+
+function hideSkeletonLoaderUser() {
+  document.getElementById("skeleton-user-profile").style.display = "none";
+}
+
+function showSkeletonLoaderRepo() {
+  document.getElementById("repositories-container").innerHTML = "";
+
+  document.getElementById("skeleton-loader-repositories").style.display =
+    "block";
+}
+
+function hideSkeletonLoaderRepo() {
+  document.getElementById("skeleton-loader-repositories").style.display =
+    "none";
+}
+
+// ? ===============================================Theme changer===============================================
+const darkToggle = document.querySelector("#dark-toggle");
+const themeName = document.querySelector("#theme-name");
+darkToggle.addEventListener("click", () => {
+  darkToggle.value === "L" ? darkOn() : lightOn();
+});
+function darkOn() {
+  themeName.innerHTML = "🌚";
+  darkToggle.value = "D";
+}
+
+function lightOn() {
+  themeName.innerHTML = "🌝";
+  darkToggle.value = "L";
+}
+// ? ===============================================End of code===============================================

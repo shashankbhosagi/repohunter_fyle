@@ -29,6 +29,7 @@ body {
 /* ===========================Navbar======================== */
 #navbar-repohunter {
     background-color: #E3E3E3;
+    width: 101%;
 
 }
 
@@ -40,6 +41,7 @@ body {
     align-items: flex-start;
 }
 
+#skeleton-user-profile,
 #user-profile-show {
     margin-top: 30px
 }
@@ -97,6 +99,9 @@ body {
     background-color: rgba(255, 255, 255, 0.8);
 }
 
+
+
+
 /* Skeleton Loader Styles */
 
 
@@ -124,6 +129,33 @@ body {
     margin-bottom: 10px;
 }
 
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+.skeleton-avatar,
+.skeleton-line-full,
+.skeleton-line-half {
+    background-color: #b4b4b4;
+    margin-bottom: 10px;
+    animation: blink 1.5s infinite;
+    /* Apply the blink animation */
+}
+
+
+
+
+/* #skeleton-loader-repositories {
+    margin-top: 48.797px;
+} */
 
 /* =======================================Pagination component=============================== */
 
@@ -141,4 +173,84 @@ body {
 #user-profile-show,
 #right-div-title {
     display: none;
+}
+
+
+/* =======================================Theme toggle=============================== */
+
+#theme-name {
+    margin-right: 42px
+}
+
+.switch-container {
+    display: flex;
+    flex-direction: row-reverse;
+    text-align: center;
+    margin-right: 16px;
+    justify-items: center;
+    align-items: center;
+}
+
+.switch-container p {
+    margin: 0;
+    padding: 0;
+    font-size: 1.5rem;
+}
+
+.switch {
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 12px;
+    right: 19px;
+    width: 60px;
+    height: 33px;
+    background-color: #ccc;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+}
+
+input:checked+.slider {
+    background-color: grey;
+}
+
+input:focus+.slider {
+    box-shadow: 0 0 1px grey;
+}
+
+input:checked+.slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
 }
